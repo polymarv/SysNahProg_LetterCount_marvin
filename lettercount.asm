@@ -150,6 +150,8 @@ next_string:
         xor     r13, r13                ; clear r13 TODO: Why??
 
 next_sec_char:
+        cmp     byte [rsi], 0  
+        jne     next_string ; Todo kein erneutes einlesen!
         ; Syntax
         ; Controll = 0 - 31
         ; Space = 32
@@ -193,15 +195,12 @@ next_sec_char:
         ;cmp     r8b, ("z"-"a")              ; check whether character is upper = 65 - 90
         ;jbe     chr_upper                   ; TODO: edit: yes, then convert seconds to complete number
 
-clean_next_char:
-        cmp     byte [rsi], 0  
-        jne     next_sec_char ; Todo kein erneutes einlesen!
-        jmp     next_string
+        inc     rsi             ; increment pointer to next char in string
+
 
 chr_digit:
-        inc [chcateg]
-        jmp clean_next_char
-
+        ;inc [chcateg]
+        jmp next_sec_char
 
 
 finished:

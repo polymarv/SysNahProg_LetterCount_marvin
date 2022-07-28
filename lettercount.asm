@@ -143,7 +143,7 @@ next_string:
         jz      finished             ; exit with error status code if string is empty
 
         ; rsi: pointer to current character in input_buffer
-        lea     rsi, [input_buffer]     ; load pointer to character buffer
+        lea     rsi, [buffer]     ; load pointer to character buffer
         mov     byte [rsi+rax], 0       ; zero terminate string
 
         xor     rcx, rcx                ; clear rcx TODO: Why??

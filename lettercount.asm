@@ -203,7 +203,7 @@ clean_next_char:
         jmp     next_string
 
 chr_digit:
-        inc chcateg[0]
+        inc qword [chcateg]
         jmp clean_next_char
 
 

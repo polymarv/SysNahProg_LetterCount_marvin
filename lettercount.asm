@@ -118,7 +118,7 @@ cntstr_num  equ ($-cntstr)/8
 ;-----------------------------------------------------------------------------
 SECTION .bss
 
-input_buffer          resb BUFFER_SIZE
+buffer          resb BUFFER_SIZE
 
 
 ;-----------------------------------------------------------------------------
@@ -133,7 +133,8 @@ SECTION .text
 _start:
         nop
 
-next_string:
+   ; YOUR CODE HERE: read and process input
+	next_string:
         ;-----------------------------------------------------------
         ; read string from standard input (usually keyboard)
         ;-----------------------------------------------------------
@@ -201,8 +202,6 @@ clean_next_char:
 chr_digit:
         inc [chcateg]
         jmp clean_next_char
-
-
 
 finished:
 

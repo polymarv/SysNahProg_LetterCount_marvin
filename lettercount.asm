@@ -133,75 +133,7 @@ SECTION .text
 _start:
         nop
 
-   ; YOUR CODE HERE: read and process input
-	next_string:
-        ;-----------------------------------------------------------
-        ; read string from standard input (usually keyboard)
-        ;-----------------------------------------------------------
-        ;TODO Stolen by Floskinner!
-        SYSCALL_4 SYS_READ, FD_STDIN, input_buffer, BUFFER_SIZE
-        test    rax, rax                ; check system call return value
-        jz      finished             ; exit with error status code if string is empty
-
-        ; rsi: pointer to current character in input_buffer
-        lea     rsi, [input_buffer]     ; load pointer to character buffer
-        mov     byte [rsi+rax], 0       ; zero terminate string
-
-        xor     rcx, rcx                ; clear rcx TODO: Why??
-        xor     r13, r13                ; clear r13 TODO: Why??
-
-next_sec_char:
-        ; Syntax
-        ; Controll = 0 - 31
-        ; Space = 32
-        ; printable = 33-47
-        ; digits = 48-57
-        ; Non-Ascii = >127
-
-        ; printable = all
-        ; and
-        ; upper = 65 - 90
-        ; lower = 97-122
-
-        movzx   edx, byte [rsi]             ; load next character from buffer to edx
-        xor     r8, r8                      ; clear r8
-
-        ;lea     r8d, rdx                    ; TODO: edit: number = rdx (ASCII) - '.' (ASCII) saved in r8d
-        ;cmp     r8b, 31                     ; check whether character is controll = 0 - 31
-        ;jbe     chr_cntl                    ; TODO: edit: yes, then convert seconds to complete number
-
-        ;lea     r8d, rdx                    ; TODO: edit: number = rdx (ASCII) - '.' (ASCII) saved in r8d
-        ;cmp     r8b, 32                     ; check whether character is space = 32
-        ;je      chr_spc                     ; TODO: edit: yes, then convert seconds to complete number
-
-        ;lea     r8d, [rdx-"!"]              ; TODO: edit: number = rdx (ASCII) - '.' (ASCII) saved in r8d
-        ;cmp     r8b, ("/"-"!")              ; check whether character is printable = 33-47
-        ;jbe     chr_printable               ; TODO: edit: yes, then convert seconds to complete number
-
-        lea     r8d, [rdx-"0"]              ; TODO: edit: number = rdx (ASCII) - '.' (ASCII) saved in r8d
-        cmp     r8b, ("9"-"0")              ; check whether character is digits = 48-57
-        jbe     chr_digit                   ; TODO: edit: yes, then convert seconds to complete number
-
-        ;lea     r8d, [rdx]                  ; TODO: edit: number = rdx (ASCII) - '.' (ASCII) saved in r8d
-        ;cmp     r8b, 127                    ; check whether character is non-Ascii = >127
-        ;jg      char_no_ascii               ; TODO: edit: yes, then convert seconds to complete number
-
-        ;lea     r8d, [rdx-"A"]              ; TODO: edit: number = rdx (ASCII) - '.' (ASCII) saved in r8d
-        ;cmp     r8b, ("Z"-"A")              ; check whether character is upper = 65 - 90
-        ;jbe     chr_upper                   ; TODO: edit: yes, then convert seconds to complete number
-
-        ;lea     r8d, [rdx-"a"]              ; TODO: edit: number = rdx (ASCII) - '.' (ASCII) saved in r8d
-        ;cmp     r8b, ("z"-"a")              ; check whether character is upper = 65 - 90
-        ;jbe     chr_upper                   ; TODO: edit: yes, then convert seconds to complete number
-
-clean_next_char:
-        cmp     byte [rsi], 0  
-        jne     next_sec_char ; Todo kein erneutes einlesen!
-        jmp     next_string
-
-chr_digit:
-        inc [chcateg]
-        jmp clean_next_char
+        ; YOUR CODE HERE: read and process input
 
 finished:
 

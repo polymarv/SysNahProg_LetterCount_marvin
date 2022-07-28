@@ -195,12 +195,16 @@ next_sec_char:
         ;cmp     r8b, ("z"-"a")              ; check whether character is upper = 65 - 90
         ;jbe     chr_upper                   ; TODO: edit: yes, then convert seconds to complete number
 
-        inc     rsi             ; increment pointer to next char in string
 
+clean_next_char:
+        inc     rsi             ; increment pointer to next char in string
+        cmp     byte [rsi], 0  
+        jne     next_sec_char ; Todo kein erneutes einlesen!
+        jmp     next_string
 
 chr_digit:
-        ;inc [chcateg]
-        jmp next_sec_char
+        inc chcateg[0]
+        jmp clean_next_char
 
 
 finished:

@@ -172,7 +172,7 @@ next_sec_char:
         ;cmp     r8b, 31                     ; check whether character is controll = 0 - 31
         ;jbe     chr_cntl                    ; TODO: edit: yes, then convert seconds to complete number
 
-        lea     r8d, rdx                    ; TODO: edit: number = rdx (ASCII) - '.' (ASCII) saved in r8d
+        lea     r8d, [rdx-32]                    ; TODO: edit: number = rdx (ASCII) - '.' (ASCII) saved in r8d
         cmp     r8b, 32                     ; check whether character is space = 32
         je      chr_spc                     ; TODO: edit: yes, then convert seconds to complete number
 
@@ -210,9 +210,9 @@ chr_digit:
         jmp clean_next_char
 
 chr_spc:
-        mov     r12, [chcateg+16]
+        mov     r12, [chcateg+2*8]
         inc     r12
-        mov     [chcateg+16], r12
+        mov     [chcateg+2*8], r12
         jmp clean_next_char
 
 finished:

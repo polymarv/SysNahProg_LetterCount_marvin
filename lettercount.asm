@@ -152,6 +152,7 @@ next_string:
 next_sec_char:
         cmp     byte [rsi], 0  
         jne     next_string ; Todo kein erneutes einlesen!
+        inc qword [chtotal]
         ; Syntax
         ; Controll = 0 - 31
         ; Space = 32
@@ -224,6 +225,20 @@ finished:
         mov     rdx,r14
         call    frac_to_ascii
 
+
+
+        mov     r14,[chtotal]
+
+        mov     rdi,outstr1.total
+        mov     rsi,r14
+        mov     edx,UINT64_DIGITS
+        call    uint64_to_ascii
+
+        mov     rdi,outstr1.total_frac
+        mov     rsi,r14
+        mov     rdx,r14
+        call    frac_to_ascii
+
         ;-----------------------------------------------------------
         ; print output string
         ;-----------------------------------------------------------
@@ -231,7 +246,7 @@ finished:
 
         ; EXAMPLE: print count for each character a-z in two columns
         xor     ebx,ebx
-        mov     r14,[chcateg]
+        mov     r14,[chtotal]
 .outloop2:
         lea     rdi,[outstr2.dec_left]
         mov     rsi,[chalpha+rbx*8]

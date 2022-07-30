@@ -153,6 +153,9 @@ next_string:
         xor     r13, r13                ; clear r13 TODO: Why??
 
 next_sec_char:
+        mov     r12, [chtotal]
+        inc     r12
+        mov     [chtotal], r12
         cmp     byte [rsi], 0  
         jne     next_string ; Todo kein erneutes einlesen!
         ; Syntax

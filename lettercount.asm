@@ -212,16 +212,16 @@ finished:
         ; YOUR CODE HERE: print result
 
         ; EXAMPLE: print total number of input characters
-        ;mov     r14,[chcateg]
+        mov     r14,[chcateg]
 
         mov     rdi,outstr1.dig
-        mov     rsi,123
+        mov     rsi,r14
         mov     edx,UINT64_DIGITS
         call    uint64_to_ascii
 
         mov     rdi,outstr1.dig_frac
-        mov     rsi,123
-        mov     rdx,246
+        mov     rsi,r14
+        mov     rdx,r14
         call    frac_to_ascii
 
         ;-----------------------------------------------------------

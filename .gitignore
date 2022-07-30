@@ -4,3 +4,5 @@ test.c
 .vscode/targets.log
 .vscode/configurationCache.log
 .vscode/dryrun.log
+helper/uint64_to_ascii.c
+helper/uint64_to_ascii.o

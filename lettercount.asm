@@ -152,7 +152,9 @@ next_string:
 next_sec_char:
         cmp     byte [rsi], 0  
         jne     next_string ; Todo kein erneutes einlesen!
-        inc qword [chtotal]
+        mov     r12, [chtotal]
+        inc     r12
+        mov     [chtotal], r12
         ; Syntax
         ; Controll = 0 - 31
         ; Space = 32

@@ -33,12 +33,9 @@ SECTION .text
 ;   The output buffer will not be zero-terminated
 ;-----------------------------------------------------------------------------
         global frac_to_ascii:function
-.LC0:
-        .string "You entered: %d"
 frac_to_ascii:
         push    rbp
         mov     rbp, rsp
-        sub     rsp, 64
         mov     QWORD PTR [rbp-40], rdi
         mov     QWORD PTR [rbp-48], rsi
         mov     QWORD PTR [rbp-56], rdx
@@ -94,11 +91,6 @@ frac_to_ascii:
         add     rax, rdx
         mov     edx, ecx
         mov     BYTE PTR [rax], dl
-        movzx   eax, BYTE PTR [rbp-25]
-        mov     esi, eax
-        mov     edi, OFFSET FLAT:.LC0
-        mov     eax, 0
-        call    printf
         shr     QWORD PTR [rbp-16], 4
         sub     DWORD PTR [rbp-20], 1
 .L9:
@@ -109,5 +101,5 @@ frac_to_ascii:
         add     rax, 1
         mov     BYTE PTR [rax], 46
         mov     eax, 6
-        leave
+        pop     rbp
         ret

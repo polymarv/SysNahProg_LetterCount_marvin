@@ -184,17 +184,17 @@ next_sec_char:
         cmp     r8b, ('9'-'0')              ; check whether character is digits = 48-57
         jbe     chr_digit                   ; TODO: edit: yes, then convert seconds to complete number
 
-        ;lea     r8d, [rdx]                  ; TODO: edit: number = rdx (ASCII) - '.' (ASCII) saved in r8d
+        ;lea     r8d, [rdx]                 ; TODO: edit: number = rdx (ASCII) - '.' (ASCII) saved in r8d
         ;cmp     r8b, 127                    ; check whether character is non-Ascii = >127
         ;jg      char_no_ascii               ; TODO: edit: yes, then convert seconds to complete number
 
-        ;lea     r8d, [rdx-"A"]              ; TODO: edit: number = rdx (ASCII) - '.' (ASCII) saved in r8d
-        ;cmp     r8b, ("Z"-"A")              ; check whether character is upper = 65 - 90
-        ;jbe     chr_upper                   ; TODO: edit: yes, then convert seconds to complete number
+        lea     r8d, [rdx-"A"]              ; TODO: edit: number = rdx (ASCII) - '.' (ASCII) saved in r8d
+        cmp     r8b, ("Z"-"A")              ; check whether character is upper = 65 - 90
+        jbe     chr_upper                   ; TODO: edit: yes, then convert seconds to complete number
 
-        ;lea     r8d, [rdx-"a"]              ; TODO: edit: number = rdx (ASCII) - '.' (ASCII) saved in r8d
-        ;cmp     r8b, ("z"-"a")              ; check whether character is upper = 65 - 90
-        ;jbe     chr_upper                   ; TODO: edit: yes, then convert seconds to complete number
+        lea     r8d, [rdx-"a"]              ; TODO: edit: number = rdx (ASCII) - '.' (ASCII) saved in r8d
+        cmp     r8b, ("z"-"a")              ; check whether character is upper = 65 - 90
+        jbe     chr_low                   ; TODO: edit: yes, then convert seconds to complete number
 
 
 clean_next_char:
@@ -209,11 +209,24 @@ chr_digit:
         mov     [chcateg], r12
         jmp clean_next_char
 
+chr_low:
+        mov     r12, [chcateg+1*8]
+        inc     r12
+        mov     [chcateg+1*8], r12
+        jmp clean_next_char
+
 chr_spc:
         mov     r12, [chcateg+2*8]
         inc     r12
         mov     [chcateg+2*8], r12
         jmp clean_next_char
+
+chr_upper:
+        mov     r12, [chcateg+3*8]
+        inc     r12
+        mov     [chcateg+3*8], r12
+        jmp clean_next_char
+
 
 finished:
 
@@ -229,7 +242,103 @@ finished:
 
         mov     rdi,outstr1.dig_frac
         mov     rsi,r14
-        mov     rdx,r14
+        mov     rdx,[chtotal]
+        call    frac_to_ascii
+
+        mov     r14,[chcateg+1*8]
+
+        mov     rdi,outstr1.low
+        mov     rsi,r14
+        mov     edx,UINT64_DIGITS
+        call    uint64_to_ascii
+
+        mov     rdi,outstr1.low_frac
+        mov     rsi,r14
+        mov     rdx,[chtotal]
+        call    frac_to_ascii
+
+        mov     r14,[chcateg+2*8]
+
+        mov     rdi,outstr1.spc
+        mov     rsi,r14
+        mov     edx,UINT64_DIGITS
+        call    uint64_to_ascii
+
+        mov     rdi,outstr1.spc_frac
+        mov     rsi,r14
+        mov     rdx,[chtotal]
+        call    frac_to_ascii
+
+        mov     r14,[chcateg+3*8]
+
+        mov     rdi,outstr1.upp
+        mov     rsi,r14
+        mov     edx,UINT64_DIGITS
+        call    uint64_to_ascii
+
+        mov     rdi,outstr1.upp_frac
+        mov     rsi,r14
+        mov     rdx,[chtotal]
+        call    frac_to_ascii
+
+        mov     r14,[chcateg+4*8]
+
+        mov     rdi,outstr1.pct
+        mov     rsi,r14
+        mov     edx,UINT64_DIGITS
+        call    uint64_to_ascii
+
+        mov     rdi,outstr1.pct_frac
+        mov     rsi,r14
+        mov     rdx,[chtotal]
+        call    frac_to_ascii
+
+        mov     r14,[chcateg+5*8]
+
+        mov     rdi,outstr1.ctl
+        mov     rsi,r14
+        mov     edx,UINT64_DIGITS
+        call    uint64_to_ascii
+
+        mov     rdi,outstr1.ctl_frac
+        mov     rsi,r14
+        mov     rdx,[chtotal]
+        call    frac_to_ascii
+
+        mov     r14,[chcateg+6*8]
+
+        mov     rdi,outstr1.oth
+        mov     rsi,r14
+        mov     edx,UINT64_DIGITS
+        call    uint64_to_ascii
+
+        mov     rdi,outstr1.oth_frac
+        mov     rsi,r14
+        mov     rdx,[chtotal]
+        call    frac_to_ascii
+
+        mov     r14,[chalpha]
+
+        mov     rdi,outstr1.alpha
+        mov     rsi,r14
+        mov     edx,UINT64_DIGITS
+        call    uint64_to_ascii
+
+        mov     rdi,outstr1.alpha_frac
+        mov     rsi,r14
+        mov     rdx,[chtotal]
+        call    frac_to_ascii
+
+        mov     r14,[chprint]
+
+        mov     rdi,outstr1.print
+        mov     rsi,r14
+        mov     edx,UINT64_DIGITS
+        call    uint64_to_ascii
+
+        mov     rdi,outstr1.print_frac
+        mov     rsi,r14
+        mov     rdx,[chtotal]
         call    frac_to_ascii
 
 

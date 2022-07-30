@@ -34,99 +34,41 @@ SECTION .text
 ;-----------------------------------------------------------------------------
         global frac_to_ascii:function
 frac_to_ascii:
-        push    rbp
-        mov     rbp, rsp
-        mov     QWORD [rbp-40], rdi
-        mov     QWORD [rbp-48], rsi
-        mov     QWORD [rbp-56], rdx
-        cmp     QWORD [rbp-56], 0
-        je      .L2
-        mov     rax, QWORD [rbp-48]
-        cmp     QWORD [rbp-56], rax
-        jnb     .L3
-.L2:
-        cmp     QWORD [rbp-48], 0
-        jne     .L4
-        mov     DWORD [rbp-4], 0
-        jmp     .L5
-.L6:
-        mov     eax, DWORD [rbp-4]
-        movsx   rdx, eax
-        mov     rax, QWORD [rbp-40]
-        add     rax, rdx
-        mov     BYTE [rax], 48
-        add     DWORD [rbp-4], 1
-.L5:
-        cmp     DWORD [rbp-4], 5
-        jle     .L6
-        jmp     .L10
-.L4:
-        mov     DWORD [rbp-8], 0
-        jmp     .L8
+        mov     rcx, rdi
+        mov     rdi, rdx
+        test    rdx, rdx
+        je      .L9
+        cmp     rdx, rsi
+        jnb     .L2
 .L9:
-        mov     eax, DWORD [rbp-8]
-        movsx   rdx, eax
-        mov     rax, QWORD [rbp-40]
-        add     rax, rdx
-        mov     BYTE [rax], 35
-        add     DWORD [rbp-8], 1
-.L8:
-        cmp     DWORD [rbp-8], 5
-        jle     .L9
-        jmp     .L10
-.L3:
-        mov     rax, QWORD [rbp-48]
-        imul    rax, rax, 10000
-        mov     edx, 0
-        div     QWORD [rbp-56]
-        mov     QWORD [rbp-16], rax
-        mov     rax, QWORD [rbp-48]
-        cmp     rax, QWORD [rbp-56]
-        jne     .L11
-        mov     rax, QWORD [rbp-40]
-        mov     BYTE [rax], 49
-        jmp     .L12
-.L11:
-        mov     rax, QWORD [rbp-40]
-        mov     BYTE [rax], 48
-.L12:
-        mov     DWORD [rbp-20], 5
-        jmp     .L13
-.L14:
-        mov     rcx, QWORD [rbp-16]
-        movabs  rdx, -3689348814741910323
-        mov     rax, rcx
-        mul     rdx
-        shr     rdx, 3
-        mov     rax, rdx
-        sal     rax, 2
-        add     rax, rdx
-        add     rax, rax
-        sub     rcx, rax
-        mov     rdx, rcx
-        mov     BYTE [rbp-21], dl
-        movzx   eax, BYTE [rbp-21]
-        lea     ecx, [rax+48]
-        mov     eax, DWORD [rbp-20]
-        movsx   rdx, eax
-        mov     rax, QWORD [rbp-40]
-        add     rax, rdx
-        mov     edx, ecx
-        mov     BYTE [rax], dl
-        mov     rax, QWORD [rbp-16]
-        movabs  rdx, -3689348814741910323
-        mul     rdx
-        mov     rax, rdx
-        shr     rax, 3
-        mov     QWORD [rbp-16], rax
-        sub     DWORD [rbp-20], 1
-.L13:
-        cmp     DWORD [rbp-20], 1
-        jg      .L14
-.L10:
-        mov     rax, QWORD [rbp-40]
-        add     rax, 1
-        mov     BYTE [rax], 46
+        test    rsi, rsi
+        jne     .L4
+        mov     DWORD [rcx], 808464432
+        mov     WORD [rcx+4], 12336
+        jmp     .L5
+.L4:
+        mov     DWORD [rcx], 589505315
+        mov     WORD [rcx+4], 8995
+        jmp     .L5
+.L2:
+        imul    rax, rsi, 10000
+        xor     edx, edx
+        div     rdi
+        cmp     rdi, rsi
+        mov     esi, 5
+        mov     edi, 10
+        sete    dl
+        add     edx, 48
+        mov     BYTE [rcx], dl
+.L7:
+        xor     edx, edx
+        div     rdi
+        add     edx, 48
+        mov     BYTE [rcx+rsi], dl
+        dec     rsi
+        cmp     rsi, 1
+        jne     .L7
+.L5:
+        mov     BYTE [rcx+1], 46
         mov     eax, 6
-        pop     rbp
         ret

@@ -33,44 +33,15 @@ SECTION .text
 ;-----------------------------------------------------------------------------
         global uint64_to_ascii:function
 uint64_to_ascii:
-        push    rbp
-        mov     rbp, rsp
-        mov     QWORD [rbp-24], rdi
-        mov     QWORD [rbp-32], rsi
-        mov     DWORD [rbp-36], edx
-        mov     DWORD [rbp-4], 15
-        jmp     .L2
-.L3:
-        mov     rcx, QWORD [rbp-32]
-        movabs  rdx, -3689348814741910323
-        mov     rax, rcx
-        mul     rdx
-        shr     rdx, 3
-        mov     rax, rdx
-        sal     rax, 2
-        add     rax, rdx
-        add     rax, rax
-        sub     rcx, rax
-        mov     rdx, rcx
-        mov     BYTE [rbp-5], dl
-        movzx   eax, BYTE [rbp-5]
-        lea     ecx, [rax+48]
-        mov     eax, DWORD [rbp-4]
-        movsx   rdx, eax
-        mov     rax, QWORD [rbp-24]
-        add     rax, rdx
-        mov     edx, ecx
-        mov     BYTE [rax], dl
-        mov     rax, QWORD [rbp-32]
-        movabs  rdx, -3689348814741910323
-        mul     rdx
-        mov     rax, rdx
-        shr     rax, 3
-        mov     QWORD [rbp-32], rax
-        sub     DWORD [rbp-4], 1
+        mov     rax, rsi
+        mov     ecx, 15
+        mov     esi, 10
 .L2:
-        cmp     DWORD [rbp-4], 0
-        jns     .L3
-        mov     eax, 0
-        pop     rbp
+        xor     edx, edx
+        div     rsi
+        add     edx, 48
+        mov     BYTE [rdi+rcx], dl
+        sub     rcx, 1
+        jnb     .L2
+        xor     eax, eax
         ret

@@ -6,3 +6,4 @@ test.c
 .vscode/dryrun.log
 helper/uint64_to_ascii.c
 helper/uint64_to_ascii.o
+test.exe

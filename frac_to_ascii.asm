@@ -93,13 +93,19 @@ frac_to_ascii:
         mov     DWORD [rbp-20], 5
         jmp     .L13
 .L14:
-        mov     DWORD [rbp-24], 15
-        mov     eax, DWORD [rbp-24]
-        mov     edx, eax
-        mov     rax, QWORD [rbp-16]
-        and     eax, edx
-        mov     BYTE [rbp-25], al
-        movzx   eax, BYTE [rbp-25]
+        mov     rcx, QWORD [rbp-16]
+        movabs  rdx, -3689348814741910323
+        mov     rax, rcx
+        mul     rdx
+        shr     rdx, 3
+        mov     rax, rdx
+        sal     rax, 2
+        add     rax, rdx
+        add     rax, rax
+        sub     rcx, rax
+        mov     rdx, rcx
+        mov     BYTE [rbp-21], dl
+        movzx   eax, BYTE [rbp-21]
         lea     ecx, [rax+48]
         mov     eax, DWORD [rbp-20]
         movsx   rdx, eax
@@ -107,7 +113,12 @@ frac_to_ascii:
         add     rax, rdx
         mov     edx, ecx
         mov     BYTE [rax], dl
-        shr     QWORD [rbp-16], 4
+        mov     rax, QWORD [rbp-16]
+        movabs  rdx, -3689348814741910323
+        mul     rdx
+        mov     rax, rdx
+        shr     rax, 3
+        mov     QWORD [rbp-16], rax
         sub     DWORD [rbp-20], 1
 .L13:
         cmp     DWORD [rbp-20], 1

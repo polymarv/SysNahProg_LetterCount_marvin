@@ -139,9 +139,6 @@ next_string:
         ;-----------------------------------------------------------
         ;TODO Stolen by Floskinner!
         SYSCALL_4 SYS_READ, FD_STDIN, buffer, BUFFER_SIZE
-        mov     r12, [chtotal]
-        inc     r12
-        mov     [chtotal], r12
         test    rax, rax                ; check system call return value
         jz      finished             ; exit with error status code if string is empty
 
@@ -209,7 +206,9 @@ clean_next_char:
         jmp     next_string
 
 chr_digit:
-        inc qword [chcateg]
+        mov     r12, [chcateg]
+        inc     r12
+        mov     [chcateg], r12
         jmp clean_next_char
 
 
